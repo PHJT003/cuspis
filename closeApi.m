@@ -6,7 +6,8 @@ end
 %% DESCRIPTION
 
 %% SHUT DOWN
-fprintf('Disconnecting...\n')
+fprintf('\nDisconnecting...\n')
 MpSys.status = calllib(Bhapi.lib, 'disconnectMPDev');
+fprintf('Disconnected.\n\n');
 
 end
