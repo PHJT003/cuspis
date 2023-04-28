@@ -9,7 +9,7 @@ end
 %% DESCRIPTION
 
 %% SET PARAMETERS
-if ~strcmp(unit, 'minutes')
+if strcmp(unit, 'seconds')
     k = 1;
 else
     k = 60;
