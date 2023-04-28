@@ -51,9 +51,9 @@ while(dpToStore > 0)
     else
         signal(dpOffset:dpOffset+dpStored-1) = dpBuffer(1:dpStored);
         
-        dpOffset = dpOffset + double(sws);
-        dpToStore = dpToStore-double(sws);
-        fprintf('Progress: %.1f%%\n', 100-((dpToStore/(MpSys.fs*recSecs))*100));
+        dpOffset = dpOffset + sws;
+        dpToStore = dpToStore - sws;
+        fprintf('Progress: %.2f%%\n', 100-((dpToStore/(MpSys.fs*recSecs))*100));
     end
 end
 

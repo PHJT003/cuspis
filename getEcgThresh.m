@@ -26,12 +26,12 @@ nDp = MpSys.fs*secsToPlot;
 dpIdx = randsample(max(x)-nDp, 1);
 epoch = dpIdx:dpIdx+nDp-1;
 
-figure(1);
+figure(101);
 plot(x, y, x(locs), pks, 'o');
 yline(thresh,'r-', txt, 'LineWidth', 1);
 title('Detected R-waves');
                                       
-figure(2)
+figure(102)
 plot(x(epoch), y(epoch));
 yline(thresh,'r-',txt, 'LineWidth', 1);
 title('ECG - Random epoch');
