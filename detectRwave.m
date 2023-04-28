@@ -35,6 +35,8 @@ if ~strcmp(MpSys.status,'MPSUCCESS')
 end
 
 signal = nan(1, dpToStore);
+% peakTracker = nan(size(dpBuffer)); % maybe you can delete this var
+isPeak = false;
 signalOnset = GetSecs();
 while(dpToStore > 0)
     [MpSys.status, dpBuffer, dpStored] = calllib(Bhapi.lib, 'receiveMPData', dpBuffer, sws, dpStored);
@@ -47,9 +49,10 @@ while(dpToStore > 0)
         
         isGoingUp = sum(diff(dpBuffer)>=0) > floor(1/4*length(dpBuffer));
         isAboveThresh = sum(dpBuffer>thresh) > floor(2/3*length(dpBuffer));
-        if isGoingUp && isAboveThresh
+        if isGoingUp && isAboveThresh && ~isPeak
             peakOnset = GetSecs();
-            fprintf("Peak detected at sample:\t %d\n\n", sum(~isnan(signal)));          
+            fprintf("Peak detected at sample:\t %d\n\n", sum(~isnan(signal)));
+            isPeak = true;
         end      
         
         dpOffset = dpOffset + sws;
