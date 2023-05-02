@@ -1,4 +1,4 @@
-function signal = detectRwave(Bhapi, MpSys, thresh, Stim, trialSecs, slideWinPct)
+function [Ts, signal] = detectRwave(Bhapi, MpSys, thresh, Stim, trialSecs, slideWinPct)
 arguments
     Bhapi(1,1) struct;
     MpSys(1,1) struct;
@@ -77,5 +77,12 @@ if ~strcmp(MpSys.status,'MPSUCCESS')
     return
 end
 closeApi(Bhapi, MpSys);
+
+%% AGGREGATE TIMESTAMPS OF EVENTS
+Ts.trialOnset = signalOnset;
+Ts.trialOffset = signalOffset;
+Ts.peakOnset = peakOnset;
+Ts.stimOnset = imgOnset;
+Ts.stimOffset = imgOffset;
 
 end
