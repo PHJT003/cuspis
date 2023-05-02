@@ -1,8 +1,9 @@
-function signal = detectRwave(Bhapi, MpSys, thresh, windowPtr, trialSecs, slideWinPct)
+function signal = detectRwave(Bhapi, MpSys, thresh, Stim, trialSecs, slideWinPct)
 arguments
     Bhapi(1,1) struct;
     MpSys(1,1) struct;
     thresh(1,1) {mustBeNumeric};
+    Stim(1,1) struct;
     trialSecs(1,1) {mustBeNumeric, mustBePositive};
     slideWinPct(1,1) {mustBeInRange(slideWinPct, 0, 1)} = 0.05;
 end
@@ -34,10 +35,8 @@ if ~strcmp(MpSys.status,'MPSUCCESS')
     return
 end
 
-stimPath = 'juggle.jpg';
-stimImage = imread(stimPath);
-stimTexture = Screen('MakeTexture', windowPtr, stimImage);
-Screen('DrawTexture', windowPtr, stimTexture);
+imgTexture = Screen('MakeTexture', Stim.windowPtr, imread(Stim.loc));
+Screen('DrawTexture', Stim.windowPtr, imgTexture);
 signal = nan(1, dpToStore);
 % peakTracker = nan(size(dpBuffer)); % maybe you can delete this var
 isPeak = false;
@@ -59,15 +58,15 @@ while(dpToStore > 0)
             isPeak = true;
         end      
 %         KbQueueFlush(KEYBOARD);
-        [~, stimOnset] = Screen('Flip', windowPtr, peakOnset+soa);
-        [~, stimOffset] = Screen('Flip', windowPtr, stimOnset+stimDur);
+        [~, imgOnset] = Screen('Flip', Stim.windowPtr, peakOnset+Stim.soa);
+        [~, imgOffset] = Screen('Flip', Stim.windowPtr, imgOnset+Stim.dur);
         
         dpOffset = dpOffset + sws;
         dpToStore = dpToStore - sws;
     end
 end
 signalOffset = GetSecs();
-Screen('Close', stimTexture);
+Screen('Close', imgTexture);
 
 %% STOP RECORDING
 fprintf('\nStop acquisition...\n');
