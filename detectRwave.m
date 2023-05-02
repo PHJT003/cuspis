@@ -9,6 +9,11 @@ arguments
 end
 %% DESCRIPTION
 
+%% VALIDATE INPUT
+if Stim.dur >= trialSecs
+    error('The stimulus duration must be shorter than the trial.');
+end
+
 %% DEFINE FIXATION CROSS
 rect = Screen('Rect', Stim.windowPtr);
 
@@ -20,12 +25,13 @@ Cross.xyPos = [rect(3)/2 rect(4)/2];
 Cross.col = [0 0 0];
 Cross.lwd = 4;
 
-%% VALIDATE INPUT
-if Stim.dur >= trialSecs
-    error('The stimulus duration must be shorter than the trial.');
-end
+%% DEFINE STIMULUS
+imgOnset = NaN;
+imgOffset = NaN;
+imgTexture = Screen('MakeTexture', Stim.windowPtr, imread(Stim.loc));
+Screen('DrawTexture', Stim.windowPtr, imgTexture);
 
-%% SET PARAMETERS
+%% SET RECORDING PARAMETERS
 dpStored = 0;
 dpToStore = MpSys.fs*trialSecs;
 sws = MpSys.fs*slideWinPct; % sliding window size
@@ -51,14 +57,9 @@ if ~strcmp(MpSys.status,'MPSUCCESS')
     return
 end
 
-imgTexture = Screen('MakeTexture', Stim.windowPtr, imread(Stim.loc));
-Screen('DrawTexture', Stim.windowPtr, imgTexture);
 signal = nan(1, dpToStore);
-% peakTracker = nan(size(dpBuffer)); % maybe you can delete this var
 hasPeaked = false;
 peakOnset = NaN;
-imgOnset = NaN;
-imgOffset = NaN;
 signalOnset = GetSecs();
 while(dpToStore > 0)
     [MpSys.status, dpBuffer, dpStored] = calllib(Bhapi.lib, 'receiveMPData', dpBuffer, sws, dpStored);
@@ -71,15 +72,16 @@ while(dpToStore > 0)
         
         isAboveThresh = sum(dpBuffer>thresh) > floor(2/3*length(dpBuffer));
         isRising = sum(diff(dpBuffer)>=0) > floor(1/4*length(dpBuffer));
-        if ~hasPeaked && (isAboveThresh && isRising)
+        if ~hasPeaked && isAboveThresh && isRising
             peakOnset = GetSecs();
-            fprintf("Peak detected at sample:\t %d\n\n", sum(~isnan(signal)));
-            hasPeaked = true;
             [~, imgOnset] = Screen('Flip', Stim.windowPtr, peakOnset+Stim.soa);
             [~, imgOffset] = Screen('Flip', Stim.windowPtr, imgOnset+Stim.dur);
-            Screen('DrawLines', Stim.windowPtr, Cross.obj, ...
-                Cross.lwd, Cross.col, Cross.xyPos, 2);
+            
+            Screen('DrawLines', Stim.windowPtr, Cross.obj, Cross.lwd, Cross.col, Cross.xyPos, 2);
             Screen('Flip', Stim.windowPtr);
+            
+            fprintf("Peak detected at sample:\t %d\n\n", sum(~isnan(signal)));
+            hasPeaked = true;
         end
         
         dpOffset = dpOffset + sws;
