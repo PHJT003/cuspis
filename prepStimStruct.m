@@ -1,9 +1,9 @@
-function Stim = prepStimStruct(stimPath, soaSecs, durSecs, windowPtr, nPres)
+function Stim = prepStimStruct(stimPath, windowPtr, durSecs, soaSecs, nPres)
 arguments
     stimPath(1,:) {mustBeText, mustBeFile};
-    soaSecs(1,1) {mustBeNumeric, mustBeGreaterThanOrEqual(soaSecs, 0)} = 0.0;
+    windowPtr(1,1) {mustBeNumeric, mustBeGreaterThanOrEqual(windowPtr, 0)};
     durSecs(1,1) {mustBeNumeric, mustBeGreaterThanOrEqual(durSecs, 1e-3)} = 0.200;
-    windowPtr(1,1) {mustBeNumeric, mustBeGreaterThanOrEqual(windowPtr, 0)} = max(Screen('Screens'));
+    soaSecs(1,1) {mustBeNumeric, mustBeGreaterThanOrEqual(soaSecs, 0)} = 0.0;
     nPres(1,1) {mustBeInteger, mustBePositive} = 1;
 end
 
@@ -11,9 +11,9 @@ end
 
 %% SET PARAMETERS
 Stim.loc = stimPath;
-Stim.soa = soaSecs;
-Stim.dur = durSecs;
 Stim.windowPtr = windowPtr;
+Stim.dur = durSecs;
+Stim.soa = soaSecs;
 Stim.nPres = nPres;
 
 end
