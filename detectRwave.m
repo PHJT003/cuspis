@@ -26,8 +26,8 @@ Cross.col = [0 0 0];
 Cross.lwd = 4;
 
 %% DEFINE STIMULUS
-imgOnset = nan(Stim.nPres, 1);
-imgOffset = nan(Stim.nPres, 1);
+imgOnset = nan(1, Stim.nPres);
+imgOffset = nan(1, Stim.nPres);
 imgTexture = Screen('MakeTexture', Stim.windowPtr, imread(Stim.loc));
 
 %% SET RECORDING PARAMETERS
@@ -57,7 +57,8 @@ end
 
 signal = nan(1, dpToStore);
 hasPeaked = false;
-peakOnset = nan(Stim.nPres, 1);
+peakOnset = nan(1, Stim.nPres);
+nPres = 1;
 signalOnset = GetSecs();
 while(dpToStore > 0)
     [MpSys.status, dpBuffer, dpStored] = calllib(Bhapi.lib, 'receiveMPData', dpBuffer, sws, dpStored);
@@ -68,19 +69,20 @@ while(dpToStore > 0)
     else
         signal(dpOffset:dpOffset+dpStored-1) = dpBuffer(1:dpStored);
         
+        isOngoing = nPres <= Stim.nPres;
         isAboveThresh = sum(dpBuffer>thresh) > floor(2/3*length(dpBuffer));
         isRising = sum(diff(dpBuffer)>=0) > floor(1/4*length(dpBuffer));
-        if ~hasPeaked && isAboveThresh && isRising
-            peakOnset(1,1) = GetSecs();
+        if  isOngoing && isAboveThresh && isRising
+            peakOnset(nPres) = GetSecs();
             Screen('DrawTexture', Stim.windowPtr, imgTexture);
-            [~, imgOnset(1,1)] = Screen('Flip', Stim.windowPtr, peakOnset(1,1)+Stim.soa);
-            [~, imgOffset(1,1)] = Screen('Flip', Stim.windowPtr, imgOnset(1,1)+Stim.dur);
+            [~, imgOnset(nPres)] = Screen('Flip', Stim.windowPtr, peakOnset(nPres)+Stim.soa);
+            [~, imgOffset(nPres)] = Screen('Flip', Stim.windowPtr, imgOnset(nPres)+Stim.dur);
             
             Screen('DrawLines', Stim.windowPtr, Cross.obj, Cross.lwd, Cross.col, Cross.xyPos, 2);
             Screen('Flip', Stim.windowPtr);
             
             fprintf("Peak detected at sample:\t %d\n\n", sum(~isnan(signal)));
-%             hasPeaked = true;
+            nPres = nPres + 1;
         end
         
         dpOffset = dpOffset + sws;
