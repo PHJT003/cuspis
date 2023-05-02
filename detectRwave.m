@@ -9,6 +9,17 @@ arguments
 end
 %% DESCRIPTION
 
+%% DEFINE FIXATION CROSS
+rect = Screen('Rect', Stim.windowPtr);
+
+Cross.armLength = 40;
+Cross.xCoords = [-Cross.armLength Cross.armLength 0 0];
+Cross.yCoords = [0 0 -Cross.armLength Cross.armLength];
+Cross.obj = [Cross.xCoords; Cross.yCoords];
+Cross.xyPos = [rect(3)/2 rect(4)/2];
+Cross.col = [0 0 0];
+Cross.lwd = 4;
+
 %% VALIDATE INPUT
 if Stim.dur >= trialSecs
     error('The stimulus duration must be shorter than the trial.');
@@ -64,9 +75,11 @@ while(dpToStore > 0)
             peakOnset = GetSecs();
             fprintf("Peak detected at sample:\t %d\n\n", sum(~isnan(signal)));
             hasPeaked = true;
-%             KbQueueFlush(KEYBOARD);
             [~, imgOnset] = Screen('Flip', Stim.windowPtr, peakOnset+Stim.soa);
             [~, imgOffset] = Screen('Flip', Stim.windowPtr, imgOnset+Stim.dur);
+            Screen('DrawLines', Stim.windowPtr, Cross.obj, ...
+                Cross.lwd, Cross.col, Cross.xyPos, 2);
+            Screen('Flip', Stim.windowPtr);
         end
         
         dpOffset = dpOffset + sws;
