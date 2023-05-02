@@ -40,6 +40,9 @@ Screen('DrawTexture', Stim.windowPtr, imgTexture);
 signal = nan(1, dpToStore);
 % peakTracker = nan(size(dpBuffer)); % maybe you can delete this var
 isPeak = false;
+peakOnset = NaN;
+imgOnset = NaN;
+imgOffset = NaN;
 signalOnset = GetSecs();
 while(dpToStore > 0)
     [MpSys.status, dpBuffer, dpStored] = calllib(Bhapi.lib, 'receiveMPData', dpBuffer, sws, dpStored);
