@@ -34,6 +34,10 @@ if ~strcmp(MpSys.status,'MPSUCCESS')
     return
 end
 
+stimPath = 'juggle.jpg';
+stimImage = imread(stimPath);
+stimTexture = Screen('MakeTexture', windowPtr, stimImage);
+Screen('DrawTexture', windowPtr, stimTexture);
 signal = nan(1, dpToStore);
 % peakTracker = nan(size(dpBuffer)); % maybe you can delete this var
 isPeak = false;
@@ -54,12 +58,16 @@ while(dpToStore > 0)
             fprintf("Peak detected at sample:\t %d\n\n", sum(~isnan(signal)));
             isPeak = true;
         end      
+%         KbQueueFlush(KEYBOARD);
+        [~, stimOnset] = Screen('Flip', windowPtr, peakOnset+soa);
+        [~, stimOffset] = Screen('Flip', windowPtr, stimOnset+stimDur);
         
         dpOffset = dpOffset + sws;
         dpToStore = dpToStore - sws;
     end
 end
 signalOffset = GetSecs();
+Screen('Close', stimTexture);
 
 %% STOP RECORDING
 fprintf('\nStop acquisition...\n');
