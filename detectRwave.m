@@ -44,7 +44,7 @@ imgTexture = Screen('MakeTexture', Stim.windowPtr, imread(Stim.loc));
 Screen('DrawTexture', Stim.windowPtr, imgTexture);
 signal = nan(1, dpToStore);
 % peakTracker = nan(size(dpBuffer)); % maybe you can delete this var
-isPeak = false;
+hasPeaked = false;
 peakOnset = NaN;
 imgOnset = NaN;
 imgOffset = NaN;
@@ -58,12 +58,12 @@ while(dpToStore > 0)
     else
         signal(dpOffset:dpOffset+dpStored-1) = dpBuffer(1:dpStored);
         
-        isGoingUp = sum(diff(dpBuffer)>=0) > floor(1/4*length(dpBuffer));
         isAboveThresh = sum(dpBuffer>thresh) > floor(2/3*length(dpBuffer));
-        if isGoingUp && isAboveThresh && ~isPeak
+        isRising = sum(diff(dpBuffer)>=0) > floor(1/4*length(dpBuffer));
+        if ~hasPeaked && (isAboveThresh && isRising)
             peakOnset = GetSecs();
             fprintf("Peak detected at sample:\t %d\n\n", sum(~isnan(signal)));
-            isPeak = true;
+            hasPeaked = true;
 %             KbQueueFlush(KEYBOARD);
             [~, imgOnset] = Screen('Flip', Stim.windowPtr, peakOnset+Stim.soa);
             [~, imgOffset] = Screen('Flip', Stim.windowPtr, imgOnset+Stim.dur);
