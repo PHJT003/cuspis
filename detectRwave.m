@@ -39,7 +39,6 @@ dpBuffer = zeros(1, sws);   % temporary buffer
 dpOffset = 1;
 
 %% START DAEMON
-openApi(Bhapi, MpSys);
 fprintf('Start acquisition daemon...\n');
 MpSys.status = calllib(Bhapi.lib, 'startMPAcqDaemon');
 if ~strcmp(MpSys.status,'MPSUCCESS')
@@ -99,7 +98,6 @@ if ~strcmp(MpSys.status,'MPSUCCESS')
     calllib(Bhapi.lib, 'disconnectMPDev');
     return
 end
-closeApi(Bhapi, MpSys);
 
 %% NO PEAKS DETECTED
 if isnan(peakOnset)
