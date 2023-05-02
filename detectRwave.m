@@ -29,7 +29,6 @@ Cross.lwd = 4;
 imgOnset = nan(Stim.nPres, 1);
 imgOffset = nan(Stim.nPres, 1);
 imgTexture = Screen('MakeTexture', Stim.windowPtr, imread(Stim.loc));
-Screen('DrawTexture', Stim.windowPtr, imgTexture);
 
 %% SET RECORDING PARAMETERS
 dpStored = 0;
@@ -72,15 +71,16 @@ while(dpToStore > 0)
         isAboveThresh = sum(dpBuffer>thresh) > floor(2/3*length(dpBuffer));
         isRising = sum(diff(dpBuffer)>=0) > floor(1/4*length(dpBuffer));
         if ~hasPeaked && isAboveThresh && isRising
-            peakOnset = GetSecs();
-            [~, imgOnset] = Screen('Flip', Stim.windowPtr, peakOnset+Stim.soa);
-            [~, imgOffset] = Screen('Flip', Stim.windowPtr, imgOnset+Stim.dur);
+            peakOnset(1,1) = GetSecs();
+            Screen('DrawTexture', Stim.windowPtr, imgTexture);
+            [~, imgOnset(1,1)] = Screen('Flip', Stim.windowPtr, peakOnset(1,1)+Stim.soa);
+            [~, imgOffset(1,1)] = Screen('Flip', Stim.windowPtr, imgOnset(1,1)+Stim.dur);
             
             Screen('DrawLines', Stim.windowPtr, Cross.obj, Cross.lwd, Cross.col, Cross.xyPos, 2);
             Screen('Flip', Stim.windowPtr);
             
             fprintf("Peak detected at sample:\t %d\n\n", sum(~isnan(signal)));
-            hasPeaked = true;
+%             hasPeaked = true;
         end
         
         dpOffset = dpOffset + sws;
