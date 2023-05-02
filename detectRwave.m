@@ -56,7 +56,6 @@ if ~strcmp(MpSys.status,'MPSUCCESS')
 end
 
 signal = nan(1, dpToStore);
-hasPeaked = false;
 peakOnset = nan(1, Stim.nPres);
 nPres = 1;
 signalOnset = GetSecs();
@@ -69,10 +68,10 @@ while(dpToStore > 0)
     else
         signal(dpOffset:dpOffset+dpStored-1) = dpBuffer(1:dpStored);
         
-        isOngoing = nPres <= Stim.nPres;
+        hasPeaked = nPres > Stim.nPres;
         isAboveThresh = sum(dpBuffer>thresh) > floor(2/3*length(dpBuffer));
         isRising = sum(diff(dpBuffer)>=0) > floor(1/4*length(dpBuffer));
-        if  isOngoing && isAboveThresh && isRising
+        if  ~hasPeaked && isAboveThresh && isRising
             peakOnset(nPres) = GetSecs();
             Screen('DrawTexture', Stim.windowPtr, imgTexture);
             [~, imgOnset(nPres)] = Screen('Flip', Stim.windowPtr, peakOnset(nPres)+Stim.soa);
