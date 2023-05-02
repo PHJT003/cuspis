@@ -81,6 +81,13 @@ if ~strcmp(MpSys.status,'MPSUCCESS')
 end
 closeApi(Bhapi, MpSys);
 
+%% NO PEAKS DETECTED
+if isnan(peakOnset)
+    fprintf('============================================================\n');
+    fprintf('\t[!!] NO PEAKS DETECTED IN THE LAST %.2f SECONDS [!!]\t\n', trialSecs);
+    fprintf('============================================================\n');
+end
+
 %% AGGREGATE TIMESTAMPS OF EVENTS
 Ts.trialOnset = signalOnset;
 Ts.trialOffset = signalOffset;
