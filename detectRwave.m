@@ -59,10 +59,10 @@ while(dpToStore > 0)
             peakOnset = GetSecs();
             fprintf("Peak detected at sample:\t %d\n\n", sum(~isnan(signal)));
             isPeak = true;
-        end      
-%         KbQueueFlush(KEYBOARD);
-        [~, imgOnset] = Screen('Flip', Stim.windowPtr, peakOnset+Stim.soa);
-        [~, imgOffset] = Screen('Flip', Stim.windowPtr, imgOnset+Stim.dur);
+%             KbQueueFlush(KEYBOARD);
+            [~, imgOnset] = Screen('Flip', Stim.windowPtr, peakOnset+Stim.soa);
+            [~, imgOffset] = Screen('Flip', Stim.windowPtr, imgOnset+Stim.dur);
+        end
         
         dpOffset = dpOffset + sws;
         dpToStore = dpToStore - sws;
