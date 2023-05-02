@@ -26,8 +26,8 @@ Cross.col = [0 0 0];
 Cross.lwd = 4;
 
 %% DEFINE STIMULUS
-imgOnset = NaN;
-imgOffset = NaN;
+imgOnset = nan(Stim.nPres, 1);
+imgOffset = nan(Stim.nPres, 1);
 imgTexture = Screen('MakeTexture', Stim.windowPtr, imread(Stim.loc));
 Screen('DrawTexture', Stim.windowPtr, imgTexture);
 
@@ -58,7 +58,7 @@ end
 
 signal = nan(1, dpToStore);
 hasPeaked = false;
-peakOnset = NaN;
+peakOnset = nan(Stim.nPres, 1);
 signalOnset = GetSecs();
 while(dpToStore > 0)
     [MpSys.status, dpBuffer, dpStored] = calllib(Bhapi.lib, 'receiveMPData', dpBuffer, sws, dpStored);
