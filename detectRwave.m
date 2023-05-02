@@ -9,6 +9,11 @@ arguments
 end
 %% DESCRIPTION
 
+%% VALIDATE INPUT
+if Stim.dur >= trialSecs
+    error('The stimulus duration must be shorter than the trial.');
+end
+
 %% SET PARAMETERS
 dpStored = 0;
 dpToStore = MpSys.fs*trialSecs;
