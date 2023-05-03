@@ -1,4 +1,4 @@
-function [Ts, signal] = detectRwave(Bhapi, MpSys, thresh, Stim, trialSecs, slideWinPct)
+function [D, signal] = detectRwave(Bhapi, MpSys, thresh, Stim, trialSecs, slideWinPct)
 arguments
     Bhapi(1,1) struct;
     MpSys(1,1) struct;
@@ -107,11 +107,13 @@ if isnan(peakOnset)
     fprintf('============================================================\n');
 end
 
-%% AGGREGATE TIMESTAMPS OF EVENTS
-Ts.trialOnset = signalOnset;
-Ts.trialOffset = signalOffset;
-Ts.peakOnset = peakOnset;
-Ts.stimOnset = imgOnset;
-Ts.stimOffset = imgOffset;
+%% AGGREGATE TRIAL DATA
+D.trialOnset = signalOnset;    % timestamps
+D.trialOffset = signalOffset;
+D.peakOnset = peakOnset;
+D.stimOnset = imgOnset;
+D.stimOffset = imgOffset;
+D.soa = Stim.soa;              % parameters used to trigger the stimulus'
+D.thresh = thresh;             % presentation
 
 end
