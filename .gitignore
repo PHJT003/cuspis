@@ -1,5 +1,7 @@
 # === FILES === #
 test.m
+notes.txt
+*.jpg
 
 # === MATLAB ===
 
