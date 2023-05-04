@@ -45,6 +45,10 @@ demoNo = input('Input a number (1 or 2): ');
 
 %% STEP 4
 % At the end of the task, turn off the BHAPI and plot a trial.
+% In the plot, the events' onsets are marked by vertical lines and the
+% stimulus offsets are marked by a square.
 
 closeApi(Bhapi, MpSys);
 plotTrial(demoData, demoEcg, MpSys, 'Demo Trial');
+
+%%
