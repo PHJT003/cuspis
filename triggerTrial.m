@@ -66,6 +66,7 @@ Cross.col = [0 0 0];
 Cross.lwd = 4;
 
 %% DEFINE STIMULUS
+ifi = Screen('GetFlipInterval', Stim.windowPtr);
 imgOnset = nan(1, Stim.nPres);
 imgOffset = nan(1, Stim.nPres);
 imgTexture = Screen('MakeTexture', Stim.windowPtr, imread(Stim.loc));
@@ -117,7 +118,7 @@ while(dpToStore > 0)
             peakOnset(nPres) = GetSecs();
             Screen('DrawTexture', Stim.windowPtr, imgTexture);
             [~, imgOnset(nPres)] = Screen('Flip', Stim.windowPtr, ...
-                peakOnset(nPres)+Stim.soa);              % present stimulus
+                peakOnset(nPres)+Stim.soa-ifi/2);        % present stimulus
             [~, imgOffset(nPres)] = Screen('Flip', Stim.windowPtr, ...
                 imgOnset(nPres)+Stim.dur);
             
