@@ -14,7 +14,6 @@ openApi(Bhapi, MpSys);
 %% STEP 1
 % Prepare the subject's skin and attach the electrodes. For recordings in
 % the MRI scanner, see BIOPAC's application note #283 (https://shorturl.at/aeqD9).
-%
 % Then, check the ECG signal with plotLiveSignal().
 
 [~, hr] = plotLiveSignal(Bhapi, MpSys, true, 12, 'seconds', 0.05);
@@ -28,17 +27,24 @@ fprintf('The estimated HR is %.2f BPM.\n', hr);
 
 close all;
 
-ecg = recSignal(Bhapi, MpSys, 1, 'minutes', 0.25);
+ecg = recSignal(Bhapi, MpSys, 12, 'seconds', 0.5);
 thresh = getEcgThresh(ecg, MpSys, 0.75, round(1.5*hr), 6);
 
 %% STEP 3
-% Prepare the stimulus with prepStim(). Then, run the task Psychtoolbox and
-% embed the triggerTrial() function in that script. For convenience, here
-% we run a short demo. Input 1 for the single stimulus presentation and 2 
-% for the cardio-visual stimulation.
+% Prepare the stimulus with prepStim(). Then, run the task with Psychtoolbox.
+% In the script for the task, embed the triggerTrial() function.
+%
+% For convenience, here use a short demo.
+% Input 1 for the single stimulus presentation demo and 2 for the for the 
+% cardio-visual stimulation demo.
+
+close all;
 
 demoNo = input('Input a number (1 or 2): ');
-global Bhapi;
-global MpSys;
+[demoData, demoEcg] = cuspisDemo(demoNo);
 
-[trialData, trialEcg] = cuspisDemo(demoNo);
+%% STEP 4
+% At the end of the task, turn off the BHAPI and plot a trial.
+
+closeApi(Bhapi, MpSys);
+plotTrial(demoData, demoEcg, MpSys, 'Demo Trial');
