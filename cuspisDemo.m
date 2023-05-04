@@ -18,8 +18,9 @@ commandwindow();
 
 Screen('Preference', 'SkipSyncTests', 1);
 PsychDefaultSetup(2);
+HideCursor();
 screenNo = max(Screen('Screens'));
-[windowPtr, windowRect] = Screen('OpenWindow', screenNo, [150 150 150]);
+windowPtr = Screen('OpenWindow', screenNo, [150 150 150]);
 Screen('BlendFunction', windowPtr, 'GL_SRC_ALPHA', 'GL_ONE_MINUS_SRC_ALPHA');
 
 %% PREPARE STIMULUS
