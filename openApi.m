@@ -3,15 +3,35 @@ arguments
     Bhapi(1,1) struct;
     MpSys(1,1) struct;
 end
-%% DESCRIPTION
+% OPENAPI Starts the application programming interface.
+%   OPENAPI(Bhapi, MpSys) starts the BHAPI with the settings specified in
+%   the Bhapi and MpSys structure arrays.
+%
+%   See also CLOSEAPI, SETAPI, SETDAQ.
+%
+%
+%
+% === DESCRIPTION =========================================================
+% This function switches on the BIOPAC Hardware Application Programming
+% Interface (BHAPI). After recording, closeApi() is used.
+%
+% INPUT
+% - Bhapi       API settings.
+% - MpSys       DAQ settings.
+%
+% ----------
+% Author : Valerio Villani
+% E-mail : valerio.cn2@gmail.com
+% Created: 2023-04-26, using MATLAB 9.10.0.1669831 (R2021a) Update 2
+% =========================================================================
 
 %% CALL DLL
-if libisloaded(Bhapi.lib) % restart
+if libisloaded(Bhapi.lib)           % restart
     calllib(Bhapi.lib, 'disconnectMPDev');
     unloadlibrary(Bhapi.lib);
 end
 
-loadlibrary(Bhapi.dll, Bhapi.doth); % load functions
+loadlibrary(Bhapi.dll, Bhapi.doth); % load BHAPI functions
 fprintf('\nmpdev.dll loaded.\n');
 libfunctions(Bhapi.lib, '-full');
 
@@ -26,7 +46,7 @@ end
 fprintf('\nConnected.\n\n');
 
 %% SET DAQ PARAMETERS
-fprintf('Setting sampling rate to %d Hz', MpSys.fs); % sampling rate
+fprintf('Setting sampling rate to %d Hz', MpSys.fs);                % sampling rate
 MpSys.status = calllib(Bhapi.lib, 'setSampleRate', MpSys.t);
 if ~strcmp(MpSys.status,'MPSUCCESS')
     fprintf('FAILED to set sampling rate!\n');
