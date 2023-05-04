@@ -18,7 +18,7 @@ end
 %
 % === DESCRIPTION =========================================================
 % This function sets the BIOPAC Hardware Application Programming Interface
-% before the recording. This function is used along with setDaq().
+% (BHAPI) before the recording. This function is used along with setDaq().
 %
 % INPUT
 % - installDir  Installation directory. The default is:
