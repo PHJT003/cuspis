@@ -53,12 +53,12 @@ else
     k = 60;
 end
 
-recSecs = t*k;
+recSecs = t*k;                  % recording time
+dpToStore = MpSys.fs*recSecs;   % data-points to record
 dpStored = 0;
-dpToStore = MpSys.fs*recSecs;
-sws = MpSys.fs*slideWinPct; % sliding window size
-dpBuffer = zeros(1, sws);   % temporary buffer
-dpOffset = 1;
+sws = MpSys.fs*slideWinPct;     % sliding window size (data-points)
+dpBuffer = zeros(1, sws);       % temporary buffer
+dpOffset = 1;                   % pointer
 
 %% START DAEMON
 fprintf('Start acquisition daemon...\n');
