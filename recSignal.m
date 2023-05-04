@@ -15,15 +15,14 @@ else
     k = 60;
 end
 
-recSecs = t*k;
+recSecs = t*k;                  % recording time
+dpToStore = MpSys.fs*recSecs;   % data-points to record
 dpStored = 0;
-dpToStore = MpSys.fs*recSecs;
-sws = MpSys.fs*slideWinPct; % sliding window size
-dpBuffer = zeros(1, sws);   % temporary buffer
-dpOffset = 1;
+sws = MpSys.fs*slideWinPct;     % sliding window size (data-points)
+dpBuffer = zeros(1, sws);       % temporary buffer
+dpOffset = 1;                   % pointer
 
 %% START DAEMON
-openApi(Bhapi, MpSys);
 fprintf('Start acquisition daemon...\n');
 MpSys.status = calllib(Bhapi.lib, 'startMPAcqDaemon');
 if ~strcmp(MpSys.status,'MPSUCCESS')
@@ -43,12 +42,14 @@ end
 
 signal = nan(1, dpToStore);
 while(dpToStore > 0)
+    % record signal
     [MpSys.status, dpBuffer, dpStored] = calllib(Bhapi.lib, 'receiveMPData', dpBuffer, sws, dpStored);
     if ~strcmp(MpSys.status,'MPSUCCESS')
         fprintf('FAILED to receive MP data!\n');
         calllib(Bhapi.lib, 'disconnectMPDev');
         return
     else
+        % save signal
         signal(dpOffset:dpOffset+dpStored-1) = dpBuffer(1:dpStored);
         
         dpOffset = dpOffset + sws;
@@ -65,6 +66,5 @@ if ~strcmp(MpSys.status,'MPSUCCESS')
     calllib(Bhapi.lib, 'disconnectMPDev');
     return
 end
-closeApi(Bhapi, MpSys);
 
 end
