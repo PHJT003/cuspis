@@ -4,7 +4,7 @@ arguments
     MpSys(1,1) struct;
     isEcg {mustBeNumericOrLogical} = true;
     t(1,1) {mustBeInteger, mustBePositive} = 12;
-    unit char {mustBeMember(unit, ['minutes', 'seconds'])} = 'seconds';
+    unit char {mustBeMember(unit, {'minutes', 'seconds'})} = 'seconds';
     slideWinPct(1,1) {mustBeInRange(slideWinPct, 0, 1)} = 0.05;
 end
 %% DESCRIPTION

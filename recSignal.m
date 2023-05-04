@@ -3,7 +3,7 @@ arguments
     Bhapi(1,1) struct;
     MpSys(1,1) struct;
     t(1,1) {mustBeInteger, mustBePositive} = 30;
-    unit char {mustBeMember(unit, ['minutes', 'seconds'])} = 'seconds';
+    unit char {mustBeMember(unit, {'minutes', 'seconds'})} = 'seconds';
     slideWinPct(1,1) {mustBeInRange(slideWinPct, 0, 1)} = 0.05;
 end
 % RECSIGNAL Records a signal for a specific duration.
@@ -28,8 +28,7 @@ end
 % - Bhapi        API settings.
 % - MpSys        DAQ settings.
 % - t            Time to record for. The default is 30.
-% - unit         Unit of time. The default is 'seconds'. Any other valid
-%                input will record in minutes.
+% - unit         Unit of time. The default is 'seconds'.
 % - slideWinPct  The size of the sliding window, expressed as a percentage
 %                of the sampling frequency. If MpSys.fs is 100 Hz and
 %                slideWinPct is set to 0.05, then the signal will be
