@@ -24,7 +24,6 @@ dpBuffer = zeros(1, sws);   % temporary buffer
 dpOffset = 1;
 
 %% START DAEMON
-openApi(Bhapi, MpSys);
 fprintf('Start acquisition daemon...\n');
 MpSys.status = calllib(Bhapi.lib, 'startMPAcqDaemon');
 if ~strcmp(MpSys.status,'MPSUCCESS')
@@ -73,7 +72,6 @@ if ~strcmp(MpSys.status,'MPSUCCESS')
     calllib(Bhapi.lib, 'disconnectMPDev');
     return
 end
-closeApi(Bhapi, MpSys);
 
 %% ESTIMATE HR
 if isEcg && t == 12
@@ -81,7 +79,7 @@ if isEcg && t == 12
     hr = length(pks)*5;
 elseif isEcg && t~= 12
     hr = NaN;
-    msg = sprintf("\nThe HR was not estimated.\nTo estimate it, set the arguments t = 12 and unit = 'seconds'."');
+    msg = sprintf("\nThe HR was not estimated.\nTo estimate it, set the arguments t = 12 and unit = 'seconds'.");
     warning(msg);
 end
 
