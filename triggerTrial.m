@@ -71,7 +71,7 @@ imgOffset = nan(1, Stim.nPres);
 imgTexture = Screen('MakeTexture', Stim.windowPtr, imread(Stim.loc));
 
 %% SET RECORDING PARAMETERS
-dpToStore = MpSys.fs*recSecs;   % data-points to record
+dpToStore = MpSys.fs*trialSecs; % data-points to record
 dpStored = 0;
 sws = MpSys.fs*slideWinPct;     % sliding window size (data-points)
 dpBuffer = zeros(1, sws);       % temporary buffer
