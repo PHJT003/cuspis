@@ -24,6 +24,7 @@ end
 % E-mail : valerio.cn2@gmail.com
 % Created: 2023-04-26, using MATLAB 9.10.0.1669831 (R2021a) Update 2
 % =========================================================================
+% Portions Copyright 2004-2009 BIOPAC Systems, Inc.
 
 %% SHUT DOWN
 fprintf('\nDisconnecting...\n')

@@ -45,6 +45,7 @@ end
 % E-mail : valerio.cn2@gmail.com
 % Created: 2023-04-28, using MATLAB 9.10.0.1669831 (R2021a) Update 2
 % =========================================================================
+% Portions Copyright 2004-2009 BIOPAC Systems, Inc.
 
 %% SET PARAMETERS
 if strcmp(unit, 'seconds')
