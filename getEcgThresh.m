@@ -67,11 +67,12 @@ if secsToPlot > 0
     epoch = dpIdx:dpIdx+nDp-1;
     
     figure(101);
+    subplot(2,1,1);
     plot(x, y, x(locs), pks, 'o');
     yline(thresh,'r-', txt, 'LineWidth', 1);
     title('Detected R-waves');
     
-    figure(102)
+    subplot(2,1,2);
     plot(x(epoch), y(epoch));
     yline(thresh,'r-',txt, 'LineWidth', 1);
     title('ECG - Random epoch');
