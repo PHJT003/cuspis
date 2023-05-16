@@ -2,8 +2,11 @@
 clear, clc, close all;
 
 figsFolder = fileparts(matlab.desktop.editor.getActiveFilename);
-lwd = 3;  % line width
-fpt = 32; % font size
+lwd = 3;   % line width
+fpt = 32;  % font size
+dpi = 300; % resolution
+
+set(gcf, 'Position', get(0, 'Screensize'));
 
 %% FIGURE 1
 load(fullfile(figsFolder, 'jors_fig01.mat'));
@@ -23,6 +26,12 @@ set(gca,'FontSize', fpt);
 xticks(0:1e4:5e4);
 ylim([0 12]);
 yticks(2:2:12);
+
+set(gca,'LooseInset', get(gca,'TightInset'));
+
+fn = 'jors_fig01.tiff';
+exportgraphics(gcf, fullfile(figsFolder, fn), 'Resolution', dpi);
+close all; 
 
 %% FIGURE 2
 
