@@ -3,6 +3,7 @@ test.m
 notes.txt
 *.jpg
 !circle.jpg
+*.tiff
 
 # === MATLAB ===
 
