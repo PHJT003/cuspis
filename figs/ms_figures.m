@@ -2,14 +2,14 @@
 clear, clc, close all;
 
 figsFolder = fileparts(matlab.desktop.editor.getActiveFilename);
+load(fullfile(figsFolder, 'data_for_figs.mat'));
+
 lwd = 3;   % line width
 fpt = 32;  % font size
 dpi = 300; % resolution
 
-set(gcf, 'Position', get(0, 'Screensize'));
-
 %% FIGURE 1
-load(fullfile(figsFolder, 'jors_fig01.mat'));
+set(gcf, 'Position', get(0, 'Screensize'));
 
 subplot(2, 1, 1);
 plot(EcgMri.bad , 'Color', 'r', 'LineWidth', lwd);
@@ -29,9 +29,26 @@ yticks(2:2:12);
 
 set(gca,'LooseInset', get(gca,'TightInset'));
 
-fn = 'jors_fig01.tiff';
+fn = 'fig01.tiff';
 exportgraphics(gcf, fullfile(figsFolder, fn), 'Resolution', dpi);
 close all; 
 
 %% FIGURE 2
+getEcgThresh(Thresh.ecg, Thresh.mpSys);
 
+set(gcf, 'Position', get(0, 'Screensize'));
+set(gca,'LooseInset', get(gca,'TightInset'));
+
+fn = 'fig02.tiff';
+exportgraphics(gcf, fullfile(figsFolder, fn), 'Resolution', dpi);
+close all;
+
+%% FIGURE 3
+plotTrial(Trial.data, Trial.ecg, Trial.mpSys);
+
+set(gcf, 'Position', get(0, 'Screensize'));
+set(gca,'LooseInset', get(gca,'TightInset'));
+
+fn = 'fig03.tiff';
+exportgraphics(gcf, fullfile(figsFolder, fn), 'Resolution', dpi);
+close all;
