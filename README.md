@@ -3,14 +3,14 @@
 
 >**THIS PROGRAM IS FREE TO USE AND PROVIDED WITH NO WARRANTY OF ANY KIND!**
 
-For a quickstart guide, please, refer to the `USECASE.m` file and/or to Cuspis' <a href="https://osf.io/wpxkg" target="_blank">technical report</a>.
+For a quickstart guide, please, refer to the `USECASE.m` file and the <a href="https://psyarxiv.com/gq7mv" target="_blank">preprint of Cuspis' technical report</a>.
 
 
 # How to cite?
 If you are using **Cuspis** in your work, we kindly ask you to cite the following paper:
 ```
-No paper has been published yet.
-You can still cite Cuspis using the DOI (10.5281/zenodo.8011115) and the name of this repository (https://github.com/PHJT003/cuspis).
+The paper is currently under review.
+Until the paper is published, you can cite the preprint (https://psyarxiv.com/gq7mv).
 ```
 
 
