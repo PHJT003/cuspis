@@ -3,14 +3,13 @@
 
 >**THIS PROGRAM IS FREE TO USE AND PROVIDED WITH NO WARRANTY OF ANY KIND!**
 
-For a quickstart guide, please, refer to the `USECASE.m` file and the <a href="https://psyarxiv.com/gq7mv" target="_blank">preprint of Cuspis' technical report</a>.
+For a quickstart guide, please, refer to the `USECASE.m` file and the <a href="https://doi.org/10.5334/jors.476" target="_blank">software metapaper of Cuspis</a>.
 
 
 # How to cite?
 If you are using **Cuspis** in your work, we kindly ask you to cite the following paper:
 ```
-The paper is currently under review.
-Until the paper is published, you can cite the preprint (https://psyarxiv.com/gq7mv).
+Villani, V., & Tsakiris, M. (2023). Cuspis: A MATLAB Suite for Tasks Investigating Heart-Brain Interactions during fMRI. Journal of Open Research Software, 11(1), 15. DOI: https://doi.org/10.5334/jors.476
 ```
 
 
